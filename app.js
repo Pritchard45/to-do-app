@@ -1,45 +1,39 @@
-function onReady(){
+function onReady() {
   const addToDoForm = document.getElementById('addToDoForm');
   const newToDoText = document.getElementById('newToDoText');
   const toDoList = document.getElementById('toDoList');
-
-  addToDoForm.addEventListener('sumbit', event => {
+  addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
 
-    // get the text
-    let title = newToDoText.value = '';
+    let title = newToDoText.value;
 
-    // create a new li
-    let newLi= document.createElement('li');
+    let newLi = document.createElement('li');
 
-    // create a new input
     let checkbox = document.createElement('input');
+
+    let deleteButton = document.createElement('button');
+
+    deleteButton.innerHTML = '<span>Delete</span>';
 
     // set the input's type to checkbox
     checkbox.type = "checkbox";
-
-    // set the title
+     // set the title
     newLi.textContent = title;
-
-    // attach the checkboxto the li
+     // attach the checkboxto the li
     newLi.appendChild(checkbox);
-
-    // attach the li to the ul
+     // attach the li to the ul
     toDoList.appendChild(newLi);
-
-    //empty the input
+     //empty the input
     newToDoText.value = '';
 
+    newLi.appendChild(deleteButton);
+
+    deleteButton.addEventListener('click', () => {
+      newLi.parentNode.removeChild(newLi);
+    })
 
   });
-//assignment Blocwork
-  function removeElement(elementId) {
-      var element = document.getElementById(elementId);
-      element.parentNode.removeChild(element);
-  };
-
-};
-
+}
 window.onload = function() {
   onReady();
-};
+}
