@@ -32,7 +32,7 @@ function onReady(){
 
 
   });
-    
+
   function removeElement(elementId) {
       // Removes an element from the document
       var element = document.getElementById(elementId);
