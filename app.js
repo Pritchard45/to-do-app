@@ -1,40 +1,67 @@
-function onReady(){
+function onReady() {
+  let toDos = [];
+  let id = 0;
   const addToDoForm = document.getElementById('addToDoForm');
   const newToDoText = document.getElementById('newToDoText');
   const toDoList = document.getElementById('toDoList');
 
-  addToDoForm.addEventListener('sumbit', event => {
+  function createNewToDo() {
+    if (!newToDoText.value) { return; }
+
+    toDos.push({
+      title: newToDoText.value,
+      complete: false,
+      id: id++,
+    });
+
+    renderTheUI();
+  }
+
+  function renderTheUI() {
+    const toDoList = document.getElementById('toDoList');
+
+    toDoList.textContent = '';
+
+    toDos.forEach(function(toDo) {
+      const newToDo = document.createElement('li');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = "checkbox";
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+
+
+      newToDo.textContent = toDo.title;
+
+      toDoList.appendChild(newToDo);
+      newToDo.appendChild(checkbox);
+      newToDo.appendChild(deleteButton);
+
+      deleteButton.addEventListener('click', () => {
+        toDos = deleteToDo(toDo.id);
+        renderTheUI();
+      });
+
+    });
+
+  }
+
+  addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
-
-    // get the text
-    let title = newToDoText.value = '';
-
-    // create a new li
-    let newLi= document.createElement('li');
-
-    // create a new input
-    let checkbox = document.createElement('input');
-
-    // set the input's type to checkbox
-    checkbox.type = "checkbox";
-
-    // set the title
-    newLi.textContent = title;
-
-    // attach the checkboxto the li
-    newLi.appendChild(checkbox);
-
-    // attach the li to the ul
-    toDoList.appendChild(newLi);
-
-    //empty the input
+    createNewToDo();
     newToDoText.value = '';
-
 
   });
 
+  function deleteToDo(id){
+    toDos = toDos.filter(item => item.id !== id);
+    return toDos;
+  };
 
-};
+  renderTheUI();
+}
+
 
 window.onload = function() {
   onReady();
